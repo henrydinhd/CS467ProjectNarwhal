@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width = device-width, initial-scale = 1">
+        <title>JavaScript Paint App</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="project.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css">
+
+    </head>
+    <body>
+
+        <div class="wrapper">
+            <div class="b1">
+                <div class ="b1-inner">
+                    <nav class="nav flex-column">
+                        <a class="selected" href="#" id="brush" onclick="ChangeTool('brush')"><img class="icons" src="icons/brush-icon.png"></a>
+                        <a href="#" id="eraser" onclick="ChangeTool('eraser')"><img class="icons" src="icons/eraser-icon.png"></a>
+                        <a href="#" id="text" onclick="ChangeTool('text')"><img class="icons" src="icons/text-icon.png"></a>
+                        <a href="#" id="line" onclick="ChangeTool('line')"><img class="icons" src="icons/line-icon.png"></a>
+                        <div class="shape-dropdown"><img class="icons" src="icons/shapes-icon.png">
+                            <div class="shape-dropdown-content">
+                                    <a href="#" id="circle" onclick="ChangeTool('circle')"><img class="icons" src="icons/circle-icon.png"></a>
+                                    <a href="#" class="sides" id="polygon" onclick="ChangeTool('polygon')"><img class="icons" id="currentPolygon" src="icons/triangle-icon.png"></a>
+                                    <div class="polygon-sides">
+                                        <input type="number" id="sides" name="sides" min="3" max="6" value="3" onchange="changeSides(this.value)">
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="color-dropdown"><img class="icons" src="icons/pallet-icon.png">
+                            <div class="color-dropdown-content">
+                                <a class="colorBox box1" href="#" id="color1" onclick="ChangeColor()"></a>
+                                <a class="colorBox box2" href="#" id="color2" onclick="ChangeColor()"></a>
+                                <a class="colorBox box3" href="#" id="color3" onclick="ChangeColor()"></a>
+                                <a class="colorBox box4" href="#" id="color4" onclick="ChangeColor()"></a>
+                                <a class="colorBox box5" href="#" id="color5" onclick="ChangeColor()"></a>
+                                <a class="colorBox box6" href="#" id="color6" onclick="ChangeColor()"></a>
+                                <a class="colorBox box7" href="#" id="color7" onclick="ChangeColor()"></a>
+                                <a class="colorBox box8" href="#" id="color8" onclick="ChangeColor()"></a>
+                                <input type="color" id="myColor">
+                                <input type="range" min="0" max="255" value="0" class="colorslider" id="" onchange="changeRGB(this.value)">
+                                <div class="" id=""></div>
+                                <input type="range" min="0" max="255" value="0" class="colorslider" id="" onchange="changeRGB(this.value)">
+                                <div class="" id=""></div>
+                                <input type="range" min="0" max="255" value="0" class="colorslider" id="" onchange="changeRGB(this.value)">
+                                <div class="" id=""></div>
+                            </div>
+                        </div>
+                        <div class="size-dropdown"><img class="icons" src="icons/size-icon.png">
+                            <div class="size-dropdown-content">
+                                <input type="range" min="1" max="20" value="2" class="slider" id="myRange" onchange="changeLineWidth(this.value)">
+                                <div class="sliderAmount" id="sliderAmount"></div>
+                            </div>
+                        </div>
+                        <a id="demo"></a>
+                    </nav>
+                </div>
+            </div>
+            <div class="b2">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <a class="navbar-brand" href="#"><img class="logo" src="icons/narwhal-icon.png">JS Paint Project<img class="logo" src="icons/narwhal-icon.png"></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                File
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" id="new" onclick="clearCanvas()" href="#"><img class="nav-icons" src="icons/new-icon.png">New</a>
+                                <a class="dropdown-item" id="open" onclick="openImage()" href="#"><img class="nav-icons" src="icons/open-icon.png">Open</a>
+                                <a class="dropdown-item" id="canvasPNG" download="narwhal-image.png" onclick="canvasToPng()" href="#"><img class="nav-icons" src="icons/save-icon.png">Save</a>
+                                <!--Temporarily removed to use working save functionality
+                                <a class="dropdown-item" id="save" onclick="saveImage()" href="#"><img class="nav-icons" src="icons/save-icon.png">Save</a>
+                                -->
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Help
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="#">About</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <canvas id="my-canvas" width="800" height="800"></canvas>
+            </div>
+
+            <!--
+            <div id="img-data-div">
+                <a id="canvasPNG" download="narwhal-image.png"><button type="button" onClick="canvasToPng()">Download as PNG</button></a>
+            </div>
+            -->
+            <div id="undo-redo-btns">
+                <button id="undo-btn" type="button" onClick="undo()">Undo</button>
+                <button id="redo-btn" type="button" onClick="redo()">Redo</button>
+            </div>
+
+        </div>
+
+    </body>
+</html>
